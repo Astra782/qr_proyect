@@ -41,12 +41,26 @@ class _MyWidgetState extends State<QrScreen> {
       body: Center(child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          //QR
           ElevatedButton(onPressed: (){
-            scanQR();
+            if(_currentPosition.latitude!= 15.54134 && _currentPosition.longitude!= -88.03602){
+              AlertDialog(
+                title: const Text("Error!"),
+                content: const Text("Ubicacion no permitida, vaya a la zona designada"),
+                actions: [
+                  TextButton(onPressed: (){
+                    Navigator.pop(context);
+                  }, child: const Text("OK"))
+                ],
+              );
+            }else{
+              scanQR();
+            }
           }, 
           child: const Text("Codigo QR"),
           ),
-          SizedBox(height: 20,),
+          //Localizacion
+          const SizedBox(height: 20,),
           Text(getResult),
           Text("LAT: ${_currentPosition.latitude}, LNG:${_currentPosition.longitude}"),
             ElevatedButton(child: const Text("Obtener ubicacion"), onPressed: () {
@@ -58,15 +72,14 @@ class _MyWidgetState extends State<QrScreen> {
     );
   }
   void scanQR() async {
-    try {
-      final qrCode = await FlutterBarcodeScanner.scanBarcode(
-          "#ff6666", "Cancel", true, ScanMode.BARCODE);
-      if (!mounted) return;
-      setState(() {
-        getResult = qrCode;
-      });
-      print("QRCode_result:--");
-      print(qrCode);
+      try {
+        final qrCode = await FlutterBarcodeScanner.scanBarcode("#ff6666", "Cancel", true, ScanMode.BARCODE);
+        if (!mounted) return;
+        setState(() {
+          getResult = qrCode;
+        });
+        print("QRCode_result:--");
+        print(qrCode);
     } on PlatformException {
       getResult = "Failed to get platform version.";
     }
