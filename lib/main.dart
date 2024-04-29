@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:qr_project/pages/home.dart';
 import 'package:qr_proyect/pages/home.dart';
+import 'package:qr_proyect/pages/qr_screen.dart';
 //import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
