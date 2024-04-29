@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage>{
   void _autostart(){
     FirebaseAuth.instance.authStateChanges().listen((User? user){
       if(user != null){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QrScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const QrScreen()));
       }
     });
   }
@@ -78,25 +78,39 @@ class LocationPage extends StatefulWidget {
 
 class _LocationPageState extends State<LocationPage> {
   late Position _currentPosition;
+
+  @override
+  void initState() {
+    _currentPosition = Position(
+      longitude: 0.0,
+      latitude: 0.0,
+      timestamp: DateTime.now(),
+      accuracy: 0.0,
+      altitude: 0.0,
+      heading: 0.0,
+      speed: 0.0,
+      speedAccuracy: 0.0 
+    );
+    super.initState();
+    _getCurrentLocation();
+
+  }
   
   @override 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar (
-        title: Text('Ubicacion actual'),
+        title: const Text('Ubicacion actual'),
       ), 
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "LAT: ${_currentPosition.latitude}, LNG:${_currentPosition.longitude}"),
-              FlatButton(
-                child: Text("Obtener ubicacion"),
-                onPressed: () {
-                  _getCurrentLocation();
-                },
-               ),
+            Text("LAT: ${_currentPosition.latitude}, LNG:${_currentPosition.longitude}"),
+            ElevatedButton(child: const Text("Obtener ubicacion"), onPressed: () {
+                _getCurrentLocation();
+              },
+            ),
           ],
         ),
       ),
