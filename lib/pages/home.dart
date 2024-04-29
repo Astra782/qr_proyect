@@ -1,6 +1,7 @@
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:qr_proyect/pages/qr_screen.dart';
 //import 'package:qr_proyect/firebase_options.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
@@ -24,11 +25,12 @@ class _HomePageState extends State<HomePage>{
         _user=event;
       });
     });
+    _autostart();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Iniciar Sesion con Google")
+      appBar: AppBar(title: const Text("Iniciar Sesion")
       ),
       body: _user != null ? __userInfo(): _googleSignInButtom(),
     );
@@ -40,6 +42,9 @@ class _HomePageState extends State<HomePage>{
       ),
     ),);
   }
+ // widget _signoutButton(){
+   // return Center(child:,)
+  //}
   Widget __userInfo(){
     return const SizedBox();
   }
@@ -48,9 +53,16 @@ class _HomePageState extends State<HomePage>{
     try{
       GoogleAuthProvider _GoogleAuthProvider = GoogleAuthProvider();
       _auth.signInWithProvider(_GoogleAuthProvider);
+      //Navigator.push(context, MaterialPageRoute(builder: (context) => const QrScreen()));
     }catch(error){
       print(error);
     }
   }
+  void _autostart(){
+    FirebaseAuth.instance.authStateChanges().listen((User? user){
+      if(user != null){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QrScreen()));
+      }
+    });
+  }
 }
-
