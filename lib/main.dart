@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 //import 'package:qr_project/pages/home.dart';
 import 'package:qr_proyect/pages/home.dart';
-import 'package:qr_proyect/pages/qr_screen.dart';
 //import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -26,7 +25,7 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 53, 49, 49)),
         useMaterial3: true,
       ),
-      home: LocationPage(),
+      home: HomePage(),
     );
   }
   
