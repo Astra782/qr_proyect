@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage>{
   void _autostart(){
     FirebaseAuth.instance.authStateChanges().listen((User? user){
       if(user != null){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const QrScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QrScreen()));
       }
     });
   }
