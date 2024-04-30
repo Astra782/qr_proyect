@@ -15,6 +15,7 @@ dependencies:
   sign_in_button: ^3.2.0
   geolocator: ^7.0.3
   flutter_barcode_scanner: ^2.0.0
+  geocoding: ^3.0.0
   
 
 dev_dependencies:

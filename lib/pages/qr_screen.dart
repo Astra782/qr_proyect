@@ -5,6 +5,7 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_barcode_scanner/flutter_barcode_scanner.dart";
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 class QrScreen extends StatefulWidget {
   const QrScreen({super.key});
@@ -14,9 +15,10 @@ class QrScreen extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<QrScreen> {
-  var getResult = "QR Code Resultado";
+  var getResult = "Inicie la Lectura de QR para mostrar su hora de entrada y salida";
   late Position _currentPosition;
-
+  String _currentAdress = "Ubicacion";
+  
   @override
   void initState() {
     _currentPosition = Position(
@@ -27,11 +29,10 @@ class _MyWidgetState extends State<QrScreen> {
       altitude: 0.0,
       heading: 0.0,
       speed: 0.0,
-      speedAccuracy: 0.0 
+      speedAccuracy: 0 
     );
     super.initState();
     _getCurrentLocation();
-
   }
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,9 @@ class _MyWidgetState extends State<QrScreen> {
         children: [
           //QR
           ElevatedButton(onPressed: (){
-            if(_currentPosition.latitude!= 15.54134 && _currentPosition.longitude!= -88.03602){
+            if(_currentAdress == "San Pedro Sula, 21102, Honduras"){
+              scanQR();
+            }else{
               AlertDialog(
                 title: const Text("Error!"),
                 content: const Text("Ubicacion no permitida, vaya a la zona designada"),
@@ -53,16 +56,16 @@ class _MyWidgetState extends State<QrScreen> {
                   }, child: const Text("OK"))
                 ],
               );
-            }else{
-              scanQR();
             }
+            //if(_currentAdress!=null) Text(_currentAdress);
           }, 
           child: const Text("Codigo QR"),
           ),
           //Localizacion
           const SizedBox(height: 20,),
           Text(getResult),
-          Text("LAT: ${_currentPosition.latitude}, LNG:${_currentPosition.longitude}"),
+          // ignore: unnecessary_null_comparison
+          if(_currentAdress!=null) Text(_currentAdress),
             ElevatedButton(child: const Text("Obtener ubicacion"), onPressed: () {
                 _getCurrentLocation();
               },
@@ -78,23 +81,39 @@ class _MyWidgetState extends State<QrScreen> {
         setState(() {
           getResult = qrCode;
         });
-        print("QRCode_result:--");
-        print(qrCode);
+        print("Su hora de Entrada es: $qrCode");
     } on PlatformException {
       getResult = "Failed to get platform version.";
     }
   }
 
-  _getCurrentLocation() {
+  _getCurrentLocation() async{
     Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
       setState(() {
         _currentPosition = position;
+        _getAdressFromLatLng();
       });
     }).catchError((e) {
       print(e);
     });
   }
+  _getAdressFromLatLng()async{
+    try{
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        _currentPosition.latitude, 
+        _currentPosition.longitude
+      );
+
+      Placemark place = placemarks[0];
+      setState(() {
+        _currentAdress="${place.locality}, ${place.postalCode}, ${place.country}";
+      });
+    }catch(e){
+      print(e);
+    }
+  }
+
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
