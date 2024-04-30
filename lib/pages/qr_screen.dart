@@ -47,15 +47,7 @@ class _MyWidgetState extends State<QrScreen> {
             if(_currentAdress == "San Pedro Sula, 21102, Honduras"){
               scanQR();
             }else{
-              AlertDialog(
-                title: const Text("Error!"),
-                content: const Text("Ubicacion no permitida, vaya a la zona designada"),
-                actions: [
-                  TextButton(onPressed: (){
-                    Navigator.pop(context);
-                  }, child: const Text("OK"))
-                ],
-              );
+              _alertDialog();
             }
             //if(_currentAdress!=null) Text(_currentAdress);
           }, 
@@ -74,6 +66,8 @@ class _MyWidgetState extends State<QrScreen> {
       ),),
     );
   }
+
+  //LOGICA DE CODIGO QR
   void scanQR() async {
       try {
         final qrCode = await FlutterBarcodeScanner.scanBarcode("#ff6666", "Cancel", true, ScanMode.BARCODE);
@@ -86,7 +80,7 @@ class _MyWidgetState extends State<QrScreen> {
       getResult = "Failed to get platform version.";
     }
   }
-
+  //lOGICA DE LOCALIZACION
   _getCurrentLocation() async{
     Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
@@ -118,5 +112,18 @@ class _MyWidgetState extends State<QrScreen> {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(DiagnosticsProperty<Position>('_currentPosition', _currentPosition));
+  }
+  //ALERT DIALOG
+  void _alertDialog(){
+    showDialog(context: context, builder: (BuildContext){
+      return AlertDialog(
+        title: const Text("Error!"),
+        content: const Text("Ubicacion no permitida, vaya a la zona designada"),
+        actions: <Widget>[
+          TextButton(child: const Text("OK"), onPressed: (){Navigator.of(context).pop();}
+          ,)
+        ],
+      );
+    });
   }
 }

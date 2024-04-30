@@ -1,9 +1,7 @@
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:flutter/rendering.dart';
 import 'package:qr_proyect/pages/qr_screen.dart';
-//import 'package:qr_proyect/firebase_options.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
 
