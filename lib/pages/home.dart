@@ -28,10 +28,13 @@ class _HomePageState extends State<HomePage>{
     });
     _autostart();
   }
+ 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Iniciar Sesion")
+      
       ),
       body: _user != null ? __userInfo(): _googleSignInButtom(),
     );
@@ -53,8 +56,9 @@ class _HomePageState extends State<HomePage>{
 
   void _handleGoogleSignIn(){
     try{
-      GoogleAuthProvider _GoogleAuthProvider = GoogleAuthProvider();
-      _auth.signInWithProvider(_GoogleAuthProvider);
+      // ignore: non_constant_identifier_names
+      GoogleAuthProvider GoogleAuthProvider = GoogleAuthProvider();
+      _auth.signInWithProvider(GoogleAuthProvider);
       //Navigator.push(context, MaterialPageRoute(builder: (context) => const QrScreen()));
     }catch(error){
       print(error);

@@ -3,6 +3,8 @@ import 'package:qr_proyect/pages/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async{
+
+  
   
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -20,10 +22,12 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: "App",
       theme: ThemeData(
+        primarySwatch: Colors.blue,
+    hintColor: Colors.amber,
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 53, 49, 49)),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
   

@@ -37,7 +37,7 @@ class _MyWidgetState extends State<QrScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Bienvenido"),
+      appBar: AppBar(title: const Text("Bienvenido"),
       ),
       body: Center(child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
